@@ -1,0 +1,18 @@
+# Core dependencies
+pandas
+python-dotenv
+
+# Notion API
+notion-client
+
+# Snowflake
+snowflake-connector-python[pandas]
+snowflake-sqlalchemy
+
+# dbt
+dbt-core
+dbt-snowflake
+
+# Optional: Jupyter/Exploration
+jupyterlab
+ipykernel
