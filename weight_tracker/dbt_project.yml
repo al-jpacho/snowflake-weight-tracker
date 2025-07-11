@@ -18,4 +18,6 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   weight_tracker:
-    +materialized: view
+    staging:
+      +schmema: staging
+      +materialized: view
