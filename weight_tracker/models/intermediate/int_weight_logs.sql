@@ -7,6 +7,7 @@ select
     weight_kg,
     time_of_day,
     -- dervied columns
+    extract(dow from weigh_in_date) as day_of_week,
     date_trunc('week', weigh_in_date) as week_start_date,
     date_trunc('month', weigh_in_date) as month_start_date,
     date_trunc('year', weigh_in_date) as year_start_date,
