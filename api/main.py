@@ -1,6 +1,9 @@
 from fastapi import FastAPI
+from api.routes import test, weight_logs
 
 app = FastAPI()
+
+app.include_router(test.router, prefix="/api")
 
 @app.get("/")
 def root():
