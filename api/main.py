@@ -1,10 +1,9 @@
 from fastapi import FastAPI
-from dotenv import load_dotenv
 from api.routes import test, weight_logs
 
-load_dotenv()
-
 app = FastAPI()
+
+app.include_router(test.router, prefix="/api")
 
 @app.get("/")
 def root():
