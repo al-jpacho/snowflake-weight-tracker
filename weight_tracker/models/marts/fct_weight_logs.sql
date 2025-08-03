@@ -9,6 +9,6 @@ select
     week_start_date as week,
     month_start_date as month,
     year_start_date as year,
-    quarter_start_date as quarter
+    quarter_start_date as quarter,
     weight_kg
 from source
