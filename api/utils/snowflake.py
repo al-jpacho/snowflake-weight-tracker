@@ -12,7 +12,8 @@ def query_snowflake(query: str):
     )
     cursor = conn.cursor()
     cursor.execute(query)
-    result = cursor.fetchall()
+    columns = [col[0] for col in cursor.description]
+    results = [dict(zip(columns, row)) for row in cursor.fetchall()]
     cursor.close()
     conn.close()
-    return result
+    return results
