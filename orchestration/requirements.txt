@@ -1,0 +1,3 @@
+notion-client
+snowflake-connector-python
+pandas
