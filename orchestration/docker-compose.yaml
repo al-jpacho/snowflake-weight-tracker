@@ -19,6 +19,7 @@ x-airflow-common:
     - ./dags:/opt/airflow/dags
     - ./logs:/opt/airflow/logs
     - ./plugins:/opt/airflow/plugins
+    - ./.env:/opt/airflow/.env  
   depends_on:
     - postgres
     - redis
