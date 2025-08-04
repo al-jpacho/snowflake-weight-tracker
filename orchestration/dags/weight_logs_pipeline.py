@@ -1,5 +1,5 @@
 import os
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 import pandas as pd
 import snowflake.connector
