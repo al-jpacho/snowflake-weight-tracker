@@ -10,8 +10,8 @@ from dotenv import load_dotenv
 
 load_dotenv(dotenv_path="/opt/airflow/.env")
 
-NOTION = Client(auth=os.getenv["NOTION_TOKEN"])
-database_id = os.getenv["NOTION_DATABASE_ID"]
+NOTION = Client(auth=os.getenv("NOTION_TOKEN"))
+database_id = os.getenv("NOTION_DATABASE_ID")
 
 
 def query_notion_database(database_id: str) -> list[dict]:
