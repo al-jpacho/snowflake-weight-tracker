@@ -6,9 +6,12 @@ import snowflake.connector
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from notion_client import Client
+from dotenv import load_dotenv
 
-NOTION = Client(auth=os.environ["NOTION_TOKEN"])
-database_id = os.environ["NOTION_DATABASE_ID"]
+load_dotenv(dotenv_path="/opt/airflow/.env")
+
+NOTION = Client(auth=os.getenv["NOTION_TOKEN"])
+database_id = os.getenv["NOTION_DATABASE_ID"]
 
 
 def query_notion_database(database_id: str) -> list[dict]:
