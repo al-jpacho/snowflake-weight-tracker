@@ -5,11 +5,12 @@ import pandas as pd
 import snowflake.connector
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-from notion_client import Client
 from dotenv import load_dotenv
+from notion_client import Client
 
 load_dotenv(dotenv_path="/opt/airflow/.env")
 
+# Initialise Notion client
 NOTION = Client(auth=os.getenv("NOTION_TOKEN"))
 database_id = os.getenv("NOTION_DATABASE_ID")
 
