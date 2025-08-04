@@ -11,7 +11,16 @@ NOTION = Client(auth=os.environ["NOTION_TOKEN"])
 database_id = os.environ["NOTION_DATABASE_ID"]
 
 
-def query_notion_database(database_id):
+def query_notion_database(database_id: str) -> list[dict]:
+    """
+    Queries a Notion database and retrieves all results.
+
+    Args:
+        database_id (str): The ID of the Notion database to query.
+
+    Returns:
+        list[dict]: A list of dictionaries containing the results from the database.
+    """
     results = []
     has_more = True
     start_cursor = None
@@ -27,7 +36,16 @@ def query_notion_database(database_id):
     return results
 
 
-def extract_rows(results):
+def extract_rows(results: list[dict]) -> pd.DataFrame:
+    """
+    Extracts rows of data from a list of dictionaries and converts them into a pandas DataFrame.
+
+    Args:
+        results (list[dict]): A list of dictionaries containing page data with properties.
+
+    Returns:
+        pd.DataFrame: A DataFrame containing extracted 'id', 'date', 'weight', and 'time_of_day' fields.
+    """
     rows = []
     for page in results:
         props = page["properties"]
