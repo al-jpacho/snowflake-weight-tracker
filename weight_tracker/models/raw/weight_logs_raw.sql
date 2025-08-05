@@ -6,7 +6,7 @@
 select
     id,
     date,
-    weight,
+    weight_kg,
     time_of_day,
     loaded_at
 from {{ ref('weight_logs_raw_temp') }} 
