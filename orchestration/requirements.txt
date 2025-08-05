@@ -1,3 +1,5 @@
 notion-client
 snowflake-connector-python
 pandas
+dbt-core
+dbt-snowflake
