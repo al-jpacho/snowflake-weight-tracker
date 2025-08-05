@@ -158,7 +158,7 @@ with DAG(
 
     truncate_temp = PythonOperator(
         task_id="truncate_temp_table",
-        python_callable=truncate_temp_table(),
+        python_callable=truncate_temp_table,
         dag=dag,
     )
 
