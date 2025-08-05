@@ -104,7 +104,7 @@ with DAG(
 
         # Write DataFrame to Snowflake
         insert_query = """
-            INSERT INTO WEIGHT_DB.RAW.weight_logs_raw (id, date, weight_kg, time_of_day,loaded_at)
+            INSERT INTO WEIGHT_DB.RAW.weight_logs_raw_temp (id, date, weight_kg, time_of_day,loaded_at)
             VALUES (%s, %s, %s, %s, %s)
         """
         records = list(
