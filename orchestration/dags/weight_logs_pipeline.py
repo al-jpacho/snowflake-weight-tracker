@@ -118,6 +118,12 @@ with DAG(
         conn.commit()
         conn.close()
 
+    truncate_temp = PythonOperator(
+        task_id="truncate_temp_table",
+        python_callable=None,
+        dag=dag,
+    )
+
     ingest_task = PythonOperator(
         task_id="pull_from_notion_db_and_insert",
         python_callable=pull_from_notion_db_and_insert,
@@ -134,4 +140,4 @@ with DAG(
         bash_command="cd /opt/airflow/weight_tracker && dbt test",
     )
 
-    ingest_task >> run_dbt >> run_dbt_tests
+    truncate_temp >> ingest_task >> run_dbt >> run_dbt_tests
