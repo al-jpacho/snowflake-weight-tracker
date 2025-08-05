@@ -66,6 +66,35 @@ def extract_rows(results: list[dict]) -> pd.DataFrame:
 
     return pd.DataFrame(rows)
 
+def query_snowflake(sql_query:str) -> list:
+    """
+    Queries Snowflake and returns the results as a pandas DataFrame.
+
+    Args:
+        sql_query (str): The SQL query to execute.
+
+    Returns:
+        pd.DataFrame: A DataFrame containing the results of the query.
+    """
+    conn = snowflake.connector.connect(
+        user=os.getenv("SNOWFLAKE_USER"),
+        password=os.getenv("SNOWFLAKE_PASSWORD"),
+        account=os.getenv("SNOWFLAKE_ACCOUNT"),
+        warehouse=os.getenv("SNOWFLAKE_WAREHOUSE"),
+        database=os.getenv("SNOWFLAKE_DATABASE"),
+        schema=os.getenv("SNOWFLAKE_SCHEMA"),
+    )
+
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute(sql_query)
+            try:
+                return cursor.fetchall()
+            except snowflake.connector.errors.ProgrammingError:
+                # No results to fetch (e.g. for INSERT/TRUNCATE)
+                return []
+    finally:
+        conn.close()
 
 # Airflow DAG
 default_args = {
