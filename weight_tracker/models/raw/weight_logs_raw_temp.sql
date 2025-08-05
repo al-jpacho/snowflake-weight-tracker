@@ -1,1 +1,0 @@
-select * from weight_db.weight_tracker_raw.weight_logs_raw_temp
