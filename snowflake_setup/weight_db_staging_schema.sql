@@ -1,1 +1,0 @@
-create schema if not exists WEIGHT_DB.STAGING;

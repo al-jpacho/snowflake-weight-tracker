@@ -19,6 +19,11 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   weight_tracker:
     raw:
-      +schema: raw
+      +schema: RAW
     staging:
-      +schema: staging
+      +schema: STAGING
+    intermediate:
+      +schema: INTERMEDIATE
+    marts:
+      +schema: MARTS
+

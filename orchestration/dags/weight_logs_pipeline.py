@@ -66,6 +66,44 @@ def extract_rows(results: list[dict]) -> pd.DataFrame:
 
     return pd.DataFrame(rows)
 
+def query_snowflake(sql_query:str) -> list:
+    """
+    Queries Snowflake and returns the results as a pandas DataFrame.
+
+    Args:
+        sql_query (str): The SQL query to execute.
+
+    Returns:
+        pd.DataFrame: A DataFrame containing the results of the query.
+    """
+    conn = snowflake.connector.connect(
+        user=os.getenv("SNOWFLAKE_USER"),
+        password=os.getenv("SNOWFLAKE_PASSWORD"),
+        account=os.getenv("SNOWFLAKE_ACCOUNT"),
+        warehouse=os.getenv("SNOWFLAKE_WAREHOUSE"),
+        database=os.getenv("SNOWFLAKE_DATABASE"),
+        schema=os.getenv("SNOWFLAKE_SCHEMA"),
+    )
+
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute(sql_query)
+            try:
+                return cursor.fetchall()
+            except snowflake.connector.errors.ProgrammingError:
+                # No results to fetch (e.g. for INSERT/TRUNCATE)
+                return []
+    finally:
+        conn.close()
+
+def truncate_temp_table():
+    """
+    Truncates the temporary table in Snowflake.
+    """
+    sql_query = """
+        TRUNCATE TABLE WEIGHT_DB.WEIGHT_TRACKER_RAW.weight_logs_raw_temp;
+    """
+    query_snowflake(sql_query)
 
 # Airflow DAG
 default_args = {
@@ -104,7 +142,7 @@ with DAG(
 
         # Write DataFrame to Snowflake
         insert_query = """
-            INSERT INTO WEIGHT_DB.RAW.weight_logs_raw (id, date, weight_kg, time_of_day,loaded_at)
+            INSERT INTO WEIGHT_DB.WEIGHT_TRACKER_RAW.weight_logs_raw_temp (id, date, weight_kg, time_of_day,loaded_at)
             VALUES (%s, %s, %s, %s, %s)
         """
         records = list(
@@ -118,6 +156,12 @@ with DAG(
         conn.commit()
         conn.close()
 
+    truncate_temp = PythonOperator(
+        task_id="truncate_temp_table",
+        python_callable=truncate_temp_table,
+        dag=dag,
+    )
+
     ingest_task = PythonOperator(
         task_id="pull_from_notion_db_and_insert",
         python_callable=pull_from_notion_db_and_insert,
@@ -129,4 +173,9 @@ with DAG(
         bash_command="cd /opt/airflow/weight_tracker && dbt run",
     )
 
-    ingest_task >> run_dbt
+    run_dbt_tests = BashOperator(
+        task_id="run_dbt_tests",
+        bash_command="cd /opt/airflow/weight_tracker && dbt test",
+    )
+
+    truncate_temp >> ingest_task >> run_dbt >> run_dbt_tests

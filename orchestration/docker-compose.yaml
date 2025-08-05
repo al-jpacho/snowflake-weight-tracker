@@ -21,6 +21,7 @@ x-airflow-common:
     - ./plugins:/opt/airflow/plugins
     - ./.env:/opt/airflow/.env  
     - ../weight_tracker:/opt/airflow/weight_tracker # Mounting dbt weight tracker
+    - ../weight_tracker/.dbt:/home/airflow/.dbt
   depends_on:
     - postgres
     - redis

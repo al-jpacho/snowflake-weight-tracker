@@ -1,4 +1,4 @@
-create or replace table WEIGHT_DB.WEIGHT_TRACKER_RAW.weight_logs_raw (
+create or replace table WEIGHT_DB.WEIGHT_TRACKER_RAW.weight_logs_raw_temp (
     id string, -- Notion page ID
     date date, -- Date of the weight log
     weight_kg float, -- Weight in kilograms
