@@ -1,1 +1,1 @@
-select * from weight_db.weight_tracker.weight_logs_raw_temp
+select * from weight_db.weight_tracker_raw.weight_logs_raw_temp
