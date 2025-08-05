@@ -1,5 +1,6 @@
 {{ config(
     materialized='incremental',
+    incremental_strategy='merge',
     unique_key='id'
 ) }}
 
@@ -10,7 +11,3 @@ select
     time_of_day,
     loaded_at
 from {{ ref('weight_logs_raw_temp') }} 
-
-{% if is_incremental() %}
-where id not in (select id from {{ this }})
-{% endif %}
