@@ -10,4 +10,4 @@ select
     weight_kg,
     time_of_day,
     loaded_at
-from {{ ref('weight_logs_raw_temp') }} 
+from weight_db.weight_tracker_raw.weight_logs_raw_temp
