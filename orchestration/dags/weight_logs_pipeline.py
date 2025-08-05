@@ -129,4 +129,9 @@ with DAG(
         bash_command="cd /opt/airflow/weight_tracker && dbt run",
     )
 
-    ingest_task >> run_dbt
+    run_dbt_tests = BashOperator(
+        task_id="run_dbt_tests",
+        bash_command="cd /opt/airflow/weight_tracker && dbt test",
+    )
+
+    ingest_task >> run_dbt >> run_dbt_tests
