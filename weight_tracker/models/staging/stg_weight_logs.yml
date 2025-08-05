@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: stg_weight_logs
+    description: "Staging model for weight logs"
+    columns: 
+      - name: id
+        description: "Unique identifier for the weight log entry"
+        tests:
+          - not_null
+          - unique
+
+      - name: time_of_day
+        description: "Time of day when the weight was recorded"
+        tests:
+          - accepted_values:
+              values: ['Morning', 'Afternoon', 'Evening', 'Night']
