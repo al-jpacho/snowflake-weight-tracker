@@ -5,6 +5,7 @@ import pandas as pd
 import snowflake.connector
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+from airflow.operators.bash import BashOperator
 from dotenv import load_dotenv
 from notion_client import Client
 
@@ -123,4 +124,9 @@ with DAG(
         dag=dag,
     )
 
-    ingest_task
+    run_dbt = BashOperator(
+        task_id="run_dbt_models",
+        bash_command="cd /opt/airflow/weight_tracker && dbt run",
+    )
+
+    ingest_task >> run_dbt
