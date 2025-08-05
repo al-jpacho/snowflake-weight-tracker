@@ -1,0 +1,1 @@
+select * from weight_db.raw.weight_logs_raw_temp
