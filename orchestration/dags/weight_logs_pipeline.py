@@ -101,7 +101,7 @@ def truncate_temp_table():
     Truncates the temporary table in Snowflake.
     """
     sql_query = """
-        TRUNCATE TABLE WEIGHT_DB.RAW.weight_logs_raw_temp;
+        TRUNCATE TABLE WEIGHT_DB.WEIGHT_TRACKER_RAW.weight_logs_raw_temp;
     """
     query_snowflake(sql_query)
 
@@ -142,7 +142,7 @@ with DAG(
 
         # Write DataFrame to Snowflake
         insert_query = """
-            INSERT INTO WEIGHT_DB.WEIGHT_TRACKER.weight_logs_raw_temp (id, date, weight_kg, time_of_day,loaded_at)
+            INSERT INTO WEIGHT_DB.WEIGHT_TRACKER_RAW.weight_logs_raw_temp (id, date, weight_kg, time_of_day,loaded_at)
             VALUES (%s, %s, %s, %s, %s)
         """
         records = list(
