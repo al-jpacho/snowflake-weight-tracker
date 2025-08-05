@@ -96,6 +96,15 @@ def query_snowflake(sql_query:str) -> list:
     finally:
         conn.close()
 
+def truncate_temp_table():
+    """
+    Truncates the temporary table in Snowflake.
+    """
+    sql_query = """
+        TRUNCATE TABLE WEIGHT_DB.RAW.weight_logs_raw_temp;
+    """
+    query_snowflake(sql_query)
+
 # Airflow DAG
 default_args = {
     "owner": "airflow",
@@ -149,7 +158,7 @@ with DAG(
 
     truncate_temp = PythonOperator(
         task_id="truncate_temp_table",
-        python_callable=None,
+        python_callable=truncate_temp_table(),
         dag=dag,
     )
 
