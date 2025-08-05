@@ -4,4 +4,4 @@ select
     weight_kg,
     lower(time_of_day) as time_of_day,
     loaded_at
-from weight_db.raw.weight_logs_raw
+from {{ ref('weight_logs_raw') }} 
